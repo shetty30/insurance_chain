@@ -1,0 +1,1012 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Blockchain Insurance Claims dApp
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="bg-white shadow-md sticky top-0 z-50">
+   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <div class="flex items-center space-x-3">
+     <img alt="Blockchain Insurance Claims dApp Logo, blue shield with blockchain nodes" class="h-10 w-10" height="40" src="https://storage.googleapis.com/a1aa/image/446d4a67-9cd1-4eed-4f4f-838d218bfa5a.jpg" width="40"/>
+     <h1 class="text-xl font-semibold text-blue-700">
+      InsureChain
+     </h1>
+    </div>
+    <div class="hidden md:flex space-x-6 text-gray-700 font-medium">
+     <a class="hover:text-blue-600 transition" href="#dashboard">
+      Dashboard
+     </a>
+     <a class="hover:text-blue-600 transition" href="#policies">
+      Policies
+     </a>
+     <a class="hover:text-blue-600 transition" href="#claims">
+      Claims
+     </a>
+     <a class="hover:text-blue-600 transition" href="#appeals">
+      Appeals
+     </a>
+     <a class="hover:text-blue-600 transition" href="#audit">
+      Audit Logs
+     </a>
+    </div>
+    <div>
+     <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center space-x-2" id="connectWalletBtn">
+      <i class="fas fa-wallet">
+      </i>
+      <span>
+       Connect Wallet
+      </span>
+     </button>
+    </div>
+    <button aria-label="Toggle menu" class="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none" id="mobileMenuBtn">
+     <i class="fas fa-bars fa-lg">
+     </i>
+    </button>
+   </nav>
+   <div class="hidden md:hidden bg-white border-t border-gray-200" id="mobileMenu">
+    <a class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600" href="#dashboard">
+     Dashboard
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600" href="#policies">
+     Policies
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600" href="#claims">
+     Claims
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600" href="#appeals">
+     Appeals
+    </a>
+    <a class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600" href="#audit">
+     Audit Logs
+    </a>
+   </div>
+  </header>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+   <!-- Wallet & Role Info -->
+   <section class="mb-8" id="walletSection">
+    <div class="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+     <div>
+      <h2 class="text-2xl font-semibold text-gray-800">
+       Welcome to InsureChain
+      </h2>
+      <p class="text-gray-600 mt-1" id="walletAddressDisplay">
+       Connect your wallet to get started.
+      </p>
+      <p class="text-gray-500 mt-1 italic" id="userRoleDisplay">
+      </p>
+     </div>
+     <div>
+      <button class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition" id="disconnectWalletBtn">
+       Disconnect Wallet
+      </button>
+     </div>
+    </div>
+   </section>
+   <!-- Dashboard -->
+   <section class="mb-12" id="dashboard">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+     Dashboard
+    </h3>
+    <div aria-label="Dashboard summary cards" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+     <div aria-labelledby="totalPoliciesLabel" class="bg-white rounded-lg shadow p-6 flex flex-col items-center space-y-3" role="region">
+      <i class="fas fa-file-contract fa-3x text-blue-600">
+      </i>
+      <p class="text-lg font-semibold text-gray-700" id="totalPoliciesLabel">
+       Total Policies
+      </p>
+      <p class="text-3xl font-bold text-gray-900" id="totalPoliciesCount">
+       0
+      </p>
+     </div>
+     <div aria-labelledby="activeClaimsLabel" class="bg-white rounded-lg shadow p-6 flex flex-col items-center space-y-3" role="region">
+      <i class="fas fa-file-invoice-dollar fa-3x text-yellow-600">
+      </i>
+      <p class="text-lg font-semibold text-gray-700" id="activeClaimsLabel">
+       Active Claims
+      </p>
+      <p class="text-3xl font-bold text-gray-900" id="activeClaimsCount">
+       0
+      </p>
+     </div>
+     <div aria-labelledby="pendingAppealsLabel" class="bg-white rounded-lg shadow p-6 flex flex-col items-center space-y-3" role="region">
+      <i class="fas fa-gavel fa-3x text-red-600">
+      </i>
+      <p class="text-lg font-semibold text-gray-700" id="pendingAppealsLabel">
+       Pending Appeals
+      </p>
+      <p class="text-3xl font-bold text-gray-900" id="pendingAppealsCount">
+       0
+      </p>
+     </div>
+    </div>
+   </section>
+   <!-- Policies Section -->
+   <section class="mb-12" id="policies">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+     Your Policies
+    </h3>
+    <div class="overflow-x-auto">
+     <table class="min-w-full bg-white rounded-lg shadow divide-y divide-gray-200">
+      <thead class="bg-blue-600 text-white">
+       <tr>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Policy ID
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Type
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Premium (USD)
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Status
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Renewal Date
+        </th>
+        <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">
+         Actions
+        </th>
+       </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100" id="policiesTableBody">
+       <!-- Dynamic policy rows inserted here -->
+      </tbody>
+     </table>
+    </div>
+    <div class="mt-6 flex justify-end">
+     <button class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition flex items-center space-x-2" id="createPolicyBtn">
+      <i class="fas fa-plus">
+      </i>
+      <span>
+       Create New Policy
+      </span>
+     </button>
+    </div>
+   </section>
+   <!-- Claims Section -->
+   <section class="mb-12" id="claims">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+     Claims Management
+    </h3>
+    <div class="mb-4 flex justify-between items-center">
+     <button class="bg-yellow-600 text-white px-5 py-2 rounded-md hover:bg-yellow-700 transition flex items-center space-x-2" id="submitClaimBtn">
+      <i class="fas fa-file-upload">
+      </i>
+      <span>
+       Submit New Claim
+      </span>
+     </button>
+     <input aria-label="Search claims" class="border border-gray-300 rounded-md px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="claimSearchInput" placeholder="Search claims by ID or status" type="text"/>
+    </div>
+    <div class="overflow-x-auto">
+     <table class="min-w-full bg-white rounded-lg shadow divide-y divide-gray-200">
+      <thead class="bg-yellow-600 text-white">
+       <tr>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Claim ID
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Policy ID
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Amount (USD)
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Status
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Submitted On
+        </th>
+        <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">
+         Actions
+        </th>
+       </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100" id="claimsTableBody">
+       <!-- Dynamic claim rows inserted here -->
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <!-- Appeals Section -->
+   <section class="mb-12" id="appeals">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+     Appeals &amp; Disputes
+    </h3>
+    <div class="overflow-x-auto">
+     <table class="min-w-full bg-white rounded-lg shadow divide-y divide-gray-200">
+      <thead class="bg-red-600 text-white">
+       <tr>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Appeal ID
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Claim ID
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Status
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+         Submitted On
+        </th>
+        <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">
+         Actions
+        </th>
+       </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100" id="appealsTableBody">
+       <!-- Dynamic appeal rows inserted here -->
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <!-- Audit Logs Section -->
+   <section class="mb-12" id="audit">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+     Audit &amp; Compliance Logs
+    </h3>
+    <div class="overflow-x-auto max-h-96 overflow-y-auto border border-gray-300 rounded-lg bg-white shadow">
+     <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-800 text-white sticky top-0">
+       <tr>
+        <th class="px-4 py-2 text-left text-sm font-semibold uppercase tracking-wider">
+         Timestamp
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold uppercase tracking-wider">
+         Event
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold uppercase tracking-wider">
+         Details
+        </th>
+       </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100" id="auditLogsTableBody">
+       <!-- Dynamic audit log rows inserted here -->
+      </tbody>
+     </table>
+    </div>
+   </section>
+  </main>
+  <footer class="bg-white border-t border-gray-200 py-6 mt-auto">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+    © 2024 InsureChain. All rights reserved.
+   </div>
+  </footer>
+  <!-- Modal Templates -->
+  <!-- Create Policy Modal -->
+  <div aria-labelledby="createPolicyModalTitle" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" id="createPolicyModal" role="dialog">
+   <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 mx-4" role="document">
+    <h4 class="text-xl font-semibold mb-4 text-gray-800" id="createPolicyModalTitle">
+     Create New Insurance Policy
+    </h4>
+    <form class="space-y-4" id="createPolicyForm">
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="policyType">
+       Policy Type
+      </label>
+      <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="policyType" name="policyType" required="">
+       <option value="">
+        Select a policy type
+       </option>
+       <option value="Auto">
+        Auto Insurance
+       </option>
+       <option value="Home">
+        Home Insurance
+       </option>
+       <option value="Health">
+        Health Insurance
+       </option>
+       <option value="Life">
+        Life Insurance
+       </option>
+      </select>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="premiumAmount">
+       Premium Amount (USD)
+      </label>
+      <input class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="premiumAmount" max="100000" min="1" name="premiumAmount" required="" type="number"/>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="renewalDate">
+       Renewal Date
+      </label>
+      <input class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="renewalDate" name="renewalDate" required="" type="date"/>
+     </div>
+     <div class="flex justify-end space-x-3 pt-4">
+      <button class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition" id="cancelCreatePolicyBtn" type="button">
+       Cancel
+      </button>
+      <button class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition" type="submit">
+       Create Policy
+      </button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <!-- Submit Claim Modal -->
+  <div aria-labelledby="submitClaimModalTitle" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" id="submitClaimModal" role="dialog">
+   <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6 mx-4 overflow-y-auto max-h-[90vh]" role="document">
+    <h4 class="text-xl font-semibold mb-4 text-gray-800" id="submitClaimModalTitle">
+     Submit New Claim
+    </h4>
+    <form class="space-y-6" id="submitClaimForm">
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="claimPolicyId">
+       Select Policy
+      </label>
+      <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="claimPolicyId" name="claimPolicyId" required="">
+       <option value="">
+        Select a policy
+       </option>
+       <!-- Dynamic policy options inserted here -->
+      </select>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="claimAmount">
+       Claim Amount (USD)
+      </label>
+      <input class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="claimAmount" max="1000000" min="1" name="claimAmount" required="" type="number"/>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="claimDescription">
+       Description
+      </label>
+      <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="claimDescription" name="claimDescription" placeholder="Describe the incident or reason for claim" required="" rows="4"></textarea>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="claimDocuments">
+       Upload Supporting Documents
+      </label>
+      <input accept=".jpg,.jpeg,.png,.pdf" class="w-full" id="claimDocuments" multiple="" name="claimDocuments" type="file"/>
+      <p class="text-xs text-gray-500 mt-1">
+       Accepted formats: JPG, PNG, PDF. Max size per file: 5MB.
+      </p>
+     </div>
+     <div class="flex justify-end space-x-3 pt-4">
+      <button class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition" id="cancelSubmitClaimBtn" type="button">
+       Cancel
+      </button>
+      <button class="bg-yellow-600 text-white px-5 py-2 rounded-md hover:bg-yellow-700 transition" type="submit">
+       Submit Claim
+      </button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <!-- Appeal Modal -->
+  <div aria-labelledby="appealModalTitle" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" id="appealModal" role="dialog">
+   <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6 mx-4 overflow-y-auto max-h-[90vh]" role="document">
+    <h4 class="text-xl font-semibold mb-4 text-gray-800" id="appealModalTitle">
+     Submit Appeal
+    </h4>
+    <form class="space-y-6" id="appealForm">
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="appealClaimId">
+       Claim ID
+      </label>
+      <input class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed" id="appealClaimId" name="appealClaimId" readonly="" type="text"/>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="appealReason">
+       Reason for Appeal
+      </label>
+      <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" id="appealReason" name="appealReason" placeholder="Explain why you are appealing the claim decision" required="" rows="4"></textarea>
+     </div>
+     <div>
+      <label class="block text-gray-700 font-medium mb-1" for="appealDocuments">
+       Upload Supporting Documents
+      </label>
+      <input accept=".jpg,.jpeg,.png,.pdf" class="w-full" id="appealDocuments" multiple="" name="appealDocuments" type="file"/>
+      <p class="text-xs text-gray-500 mt-1">
+       Accepted formats: JPG, PNG, PDF. Max size per file: 5MB.
+      </p>
+     </div>
+     <div class="flex justify-end space-x-3 pt-4">
+      <button class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition" id="cancelAppealBtn" type="button">
+       Cancel
+      </button>
+      <button class="bg-red-600 text-white px-5 py-2 rounded-md hover:bg-red-700 transition" type="submit">
+       Submit Appeal
+      </button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <script>
+   // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Wallet connection and role management (mocked for demo)
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const disconnectWalletBtn = document.getElementById('disconnectWalletBtn');
+    const walletAddressDisplay = document.getElementById('walletAddressDisplay');
+    const userRoleDisplay = document.getElementById('userRoleDisplay');
+
+    // Mock roles for demo: policyholder, agent, adjuster, auditor
+    const roles = ['Policyholder', 'Agent', 'Adjuster', 'Auditor'];
+
+    let connected = false;
+    let userAddress = '';
+    let userRole = '';
+
+    function generateMockAddress() {
+      return (
+        '0x' +
+        Math.random()
+          .toString(16)
+          .substr(2, 40)
+          .padEnd(40, '0')
+          .toLowerCase()
+      );
+    }
+
+    function assignRandomRole() {
+      return roles[Math.floor(Math.random() * roles.length)];
+    }
+
+    connectWalletBtn.addEventListener('click', () => {
+      // In real app, integrate MetaMask or WalletConnect here
+      connected = true;
+      userAddress = generateMockAddress();
+      userRole = assignRandomRole();
+
+      walletAddressDisplay.textContent = `Connected wallet: ${userAddress}`;
+      userRoleDisplay.textContent = `Role: ${userRole}`;
+      connectWalletBtn.classList.add('hidden');
+      disconnectWalletBtn.classList.remove('hidden');
+
+      loadUserData();
+    });
+
+    disconnectWalletBtn.addEventListener('click', () => {
+      connected = false;
+      userAddress = '';
+      userRole = '';
+      walletAddressDisplay.textContent = 'Connect your wallet to get started.';
+      userRoleDisplay.textContent = '';
+      connectWalletBtn.classList.remove('hidden');
+      disconnectWalletBtn.classList.add('hidden');
+
+      clearUserData();
+    });
+
+    // Data storage (mocked for demo)
+    let policies = [];
+    let claims = [];
+    let appeals = [];
+    let auditLogs = [];
+
+    // Utility: format date
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
+    }
+
+    // Load user data (mocked)
+    function loadUserData() {
+      // For demo, generate some mock data based on role
+      policies = [];
+      claims = [];
+      appeals = [];
+      auditLogs = [];
+
+      if (userRole === 'Policyholder') {
+        // Create 5 policies
+        for (let i = 1; i <= 5; i++) {
+          policies.push({
+            id: `POL${1000 + i}`,
+            type: ['Auto', 'Home', 'Health', 'Life'][i % 4],
+            premium: (100 + i * 50).toFixed(2),
+            status: 'Active',
+            renewalDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          });
+        }
+        // Create 3 claims
+        for (let i = 1; i <= 3; i++) {
+          claims.push({
+            id: `CLM${2000 + i}`,
+            policyId: policies[i % policies.length].id,
+            amount: (5000 + i * 1000).toFixed(2),
+            status: ['Submitted', 'Under Review', 'Approved'][i % 3],
+            submittedOn: new Date(Date.now() - i * 5 * 24 * 60 * 60 * 1000).toISOString(),
+          });
+        }
+        // 1 appeal
+        appeals.push({
+          id: 'APL3001',
+          claimId: claims[0].id,
+          status: 'Pending',
+          submittedOn: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        });
+      } else if (userRole === 'Agent') {
+        // Agents see policies they manage
+        for (let i = 1; i <= 7; i++) {
+          policies.push({
+            id: `POL${1100 + i}`,
+            type: ['Auto', 'Home', 'Health', 'Life'][i % 4],
+            premium: (150 + i * 40).toFixed(2),
+            status: 'Active',
+            renewalDate: new Date(Date.now() + i * 20 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          });
+        }
+        // Claims assigned to agent
+        for (let i = 1; i <= 5; i++) {
+          claims.push({
+            id: `CLM${2100 + i}`,
+            policyId: policies[i % policies.length].id,
+            amount: (3000 + i * 2000).toFixed(2),
+            status: ['Submitted', 'Under Review', 'Rejected'][i % 3],
+            submittedOn: new Date(Date.now() - i * 3 * 24 * 60 * 60 * 1000).toISOString(),
+          });
+        }
+      } else if (userRole === 'Adjuster') {
+        // Adjusters see claims to process
+        for (let i = 1; i <= 10; i++) {
+          claims.push({
+            id: `CLM${2200 + i}`,
+            policyId: `POL${1200 + (i % 5)}`,
+            amount: (1000 + i * 1500).toFixed(2),
+            status: ['Under Review', 'Approved', 'Rejected'][i % 3],
+            submittedOn: new Date(Date.now() - i * 2 * 24 * 60 * 60 * 1000).toISOString(),
+          });
+        }
+      } else if (userRole === 'Auditor') {
+        // Auditors see audit logs
+        for (let i = 1; i <= 15; i++) {
+          auditLogs.push({
+            timestamp: new Date(Date.now() - i * 3600 * 1000).toISOString(),
+            event: ['Policy Created', 'Claim Submitted', 'Claim Approved', 'Appeal Filed'][i % 4],
+            details: `Event details for event #${i}`,
+          });
+        }
+      }
+
+      renderDashboard();
+      renderPolicies();
+      renderClaims();
+      renderAppeals();
+      renderAuditLogs();
+    }
+
+    function clearUserData() {
+      policies = [];
+      claims = [];
+      appeals = [];
+      auditLogs = [];
+      renderDashboard();
+      renderPolicies();
+      renderClaims();
+      renderAppeals();
+      renderAuditLogs();
+      clearPolicyOptions();
+    }
+
+    // Render dashboard counts
+    function renderDashboard() {
+      document.getElementById('totalPoliciesCount').textContent = policies.length;
+      document.getElementById('activeClaimsCount').textContent = claims.filter(c => c.status !== 'Rejected').length;
+      document.getElementById('pendingAppealsCount').textContent = appeals.filter(a => a.status === 'Pending').length;
+    }
+
+    // Render policies table
+    function renderPolicies() {
+      const tbody = document.getElementById('policiesTableBody');
+      tbody.innerHTML = '';
+      if (policies.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-gray-500">No policies found.</td></tr>`;
+        clearPolicyOptions();
+        return;
+      }
+      policies.forEach((policy) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50 cursor-pointer';
+        tr.innerHTML = `
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${policy.id}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${policy.type}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">$${policy.premium}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-green-600 font-semibold">${policy.status}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-700">${formatDate(policy.renewalDate)}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-center text-sm">
+            <button data-policy-id="${policy.id}" class="text-blue-600 hover:text-blue-800 focus:outline-none focus:underline viewPolicyBtn">
+              View
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      populatePolicyOptions();
+    }
+
+    // Render claims table
+    function renderClaims() {
+      const tbody = document.getElementById('claimsTableBody');
+      tbody.innerHTML = '';
+      if (claims.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-gray-500">No claims found.</td></tr>`;
+        return;
+      }
+      claims.forEach((claim) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50 cursor-pointer';
+        let statusColor = 'text-gray-700';
+        if (claim.status === 'Approved') statusColor = 'text-green-600 font-semibold';
+        else if (claim.status === 'Rejected') statusColor = 'text-red-600 font-semibold';
+        else if (claim.status === 'Under Review') statusColor = 'text-yellow-600 font-semibold';
+
+        tr.innerHTML = `
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${claim.id}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${claim.policyId}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">$${claim.amount}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm ${statusColor}">${claim.status}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-700">${formatDate(claim.submittedOn)}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-center text-sm space-x-2">
+            <button data-claim-id="${claim.id}" class="text-yellow-600 hover:text-yellow-800 focus:outline-none focus:underline viewClaimBtn">
+              View
+            </button>
+            ${
+              userRole === 'Policyholder' && claim.status === 'Rejected'
+                ? `<button data-claim-id="${claim.id}" class="text-red-600 hover:text-red-800 focus:outline-none focus:underline appealClaimBtn">Appeal</button>`
+                : ''
+            }
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render appeals table
+    function renderAppeals() {
+      const tbody = document.getElementById('appealsTableBody');
+      tbody.innerHTML = '';
+      if (appeals.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500">No appeals found.</td></tr>`;
+        return;
+      }
+      appeals.forEach((appeal) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50 cursor-pointer';
+        let statusColor = 'text-gray-700';
+        if (appeal.status === 'Approved') statusColor = 'text-green-600 font-semibold';
+        else if (appeal.status === 'Rejected') statusColor = 'text-red-600 font-semibold';
+        else if (appeal.status === 'Pending') statusColor = 'text-yellow-600 font-semibold';
+
+        tr.innerHTML = `
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${appeal.id}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${appeal.claimId}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm ${statusColor}">${appeal.status}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-700">${formatDate(appeal.submittedOn)}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-center text-sm">
+            <button data-appeal-id="${appeal.id}" class="text-red-600 hover:text-red-800 focus:outline-none focus:underline viewAppealBtn">
+              View
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render audit logs table
+    function renderAuditLogs() {
+      const tbody = document.getElementById('auditLogsTableBody');
+      tbody.innerHTML = '';
+      if (auditLogs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-gray-500">No audit logs found.</td></tr>`;
+        return;
+      }
+      auditLogs.forEach((log) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50 cursor-default';
+        tr.innerHTML = `
+          <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">${new Date(log.timestamp).toLocaleString()}</td>
+          <td class="px-4 py-2 whitespace-nowrap text-sm font-semibold text-gray-900">${log.event}</td>
+          <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">${log.details}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Populate policy options in claim submission form
+    function populatePolicyOptions() {
+      const select = document.getElementById('claimPolicyId');
+      select.innerHTML = '<option value="">Select a policy</option>';
+      policies.forEach((policy) => {
+        const option = document.createElement('option');
+        option.value = policy.id;
+        option.textContent = `${policy.id} - ${policy.type}`;
+        select.appendChild(option);
+      });
+    }
+
+    function clearPolicyOptions() {
+      const select = document.getElementById('claimPolicyId');
+      select.innerHTML = '<option value="">Select a policy</option>';
+    }
+
+    // Modal controls
+    const createPolicyModal = document.getElementById('createPolicyModal');
+    const submitClaimModal = document.getElementById('submitClaimModal');
+    const appealModal = document.getElementById('appealModal');
+
+    const createPolicyBtn = document.getElementById('createPolicyBtn');
+    const submitClaimBtn = document.getElementById('submitClaimBtn');
+
+    const cancelCreatePolicyBtn = document.getElementById('cancelCreatePolicyBtn');
+    const cancelSubmitClaimBtn = document.getElementById('cancelSubmitClaimBtn');
+    const cancelAppealBtn = document.getElementById('cancelAppealBtn');
+
+    createPolicyBtn.addEventListener('click', () => {
+      if (!connected) {
+        alert('Please connect your wallet first.');
+        return;
+      }
+      if (userRole !== 'Policyholder' && userRole !== 'Agent') {
+        alert('Only Policyholders and Agents can create policies.');
+        return;
+      }
+      createPolicyModal.classList.remove('hidden');
+    });
+
+    cancelCreatePolicyBtn.addEventListener('click', () => {
+      createPolicyModal.classList.add('hidden');
+      document.getElementById('createPolicyForm').reset();
+    });
+
+    submitClaimBtn.addEventListener('click', () => {
+      if (!connected) {
+        alert('Please connect your wallet first.');
+        return;
+      }
+      if (userRole !== 'Policyholder') {
+        alert('Only Policyholders can submit claims.');
+        return;
+      }
+      if (policies.length === 0) {
+        alert('You have no policies to submit claims against.');
+        return;
+      }
+      submitClaimModal.classList.remove('hidden');
+    });
+
+    cancelSubmitClaimBtn.addEventListener('click', () => {
+      submitClaimModal.classList.add('hidden');
+      document.getElementById('submitClaimForm').reset();
+    });
+
+    cancelAppealBtn.addEventListener('click', () => {
+      appealModal.classList.add('hidden');
+      document.getElementById('appealForm').reset();
+    });
+
+    // Handle create policy form submission
+    document.getElementById('createPolicyForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const type = e.target.policyType.value;
+      const premium = parseFloat(e.target.premiumAmount.value).toFixed(2);
+      const renewalDate = e.target.renewalDate.value;
+
+      if (!type || !premium || !renewalDate) {
+        alert('Please fill all fields.');
+        return;
+      }
+
+      // Generate new policy ID
+      const newId = `POL${Math.floor(1000 + Math.random() * 9000)}`;
+      policies.push({
+        id: newId,
+        type,
+        premium,
+        status: 'Active',
+        renewalDate,
+      });
+
+      auditLogs.unshift({
+        timestamp: new Date().toISOString(),
+        event: 'Policy Created',
+        details: `Policy ${newId} created by ${userAddress}`,
+      });
+
+      renderPolicies();
+      renderDashboard();
+      renderAuditLogs();
+
+      alert(`Policy ${newId} created successfully.`);
+      createPolicyModal.classList.add('hidden');
+      e.target.reset();
+    });
+
+    // Handle submit claim form submission
+    document.getElementById('submitClaimForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const policyId = e.target.claimPolicyId.value;
+      const amount = parseFloat(e.target.claimAmount.value).toFixed(2);
+      const description = e.target.claimDescription.value.trim();
+      const files = e.target.claimDocuments.files;
+
+      if (!policyId || !amount || !description) {
+        alert('Please fill all required fields.');
+        return;
+      }
+
+      if (amount > 1000000) {
+        alert('Claim amount cannot exceed $1,000,000.');
+        return;
+      }
+
+      // Simulate IPFS upload for documents
+      let ipfsHashes = [];
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          // In real app, upload to IPFS and get hash
+          ipfsHashes.push(`QmFakeHash${Date.now()}${i}`);
+        }
+      }
+
+      // Generate new claim ID
+      const newClaimId = `CLM${Math.floor(2000 + Math.random() * 8000)}`;
+      claims.push({
+        id: newClaimId,
+        policyId,
+        amount,
+        status: 'Submitted',
+        submittedOn: new Date().toISOString(),
+        description,
+        documents: ipfsHashes,
+      });
+
+      auditLogs.unshift({
+        timestamp: new Date().toISOString(),
+        event: 'Claim Submitted',
+        details: `Claim ${newClaimId} submitted for policy ${policyId} by ${userAddress}`,
+      });
+
+      renderClaims();
+      renderDashboard();
+      renderAuditLogs();
+
+      alert(`Claim ${newClaimId} submitted successfully.`);
+      submitClaimModal.classList.add('hidden');
+      e.target.reset();
+    });
+
+    // Handle appeal claim button clicks (delegated)
+    document.getElementById('claimsTableBody').addEventListener('click', (e) => {
+      if (e.target.classList.contains('appealClaimBtn')) {
+        const claimId = e.target.getAttribute('data-claim-id');
+        if (!claimId) return;
+        if (!connected) {
+          alert('Please connect your wallet first.');
+          return;
+        }
+        if (userRole !== 'Policyholder') {
+          alert('Only Policyholders can submit appeals.');
+          return;
+        }
+        document.getElementById('appealClaimId').value = claimId;
+        appealModal.classList.remove('hidden');
+      }
+    });
+
+    // Handle appeal form submission
+    document.getElementById('appealForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const claimId = e.target.appealClaimId.value;
+      const reason = e.target.appealReason.value.trim();
+      const files = e.target.appealDocuments.files;
+
+      if (!claimId || !reason) {
+        alert('Please fill all required fields.');
+        return;
+      }
+
+      // Simulate IPFS upload for documents
+      let ipfsHashes = [];
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          // In real app, upload to IPFS and get hash
+          ipfsHashes.push(`QmFakeHashAppeal${Date.now()}${i}`);
+        }
+      }
+
+      // Generate new appeal ID
+      const newAppealId = `APL${Math.floor(3000 + Math.random() * 7000)}`;
+      appeals.push({
+        id: newAppealId,
+        claimId,
+        status: 'Pending',
+        submittedOn: new Date().toISOString(),
+        reason,
+        documents: ipfsHashes,
+      });
+
+      auditLogs.unshift({
+        timestamp: new Date().toISOString(),
+        event: 'Appeal Filed',
+        details: `Appeal ${newAppealId} filed for claim ${claimId} by ${userAddress}`,
+      });
+
+      renderAppeals();
+      renderDashboard();
+      renderAuditLogs();
+
+      alert(`Appeal ${newAppealId} submitted successfully.`);
+      appealModal.classList.add('hidden');
+      e.target.reset();
+    });
+
+    // Search claims by ID or status
+    const claimSearchInput = document.getElementById('claimSearchInput');
+    claimSearchInput.addEventListener('input', () => {
+      const query = claimSearchInput.value.toLowerCase();
+      const filteredClaims = claims.filter(
+        (c) =>
+          c.id.toLowerCase().includes(query) ||
+          c.status.toLowerCase().includes(query) ||
+          c.policyId.toLowerCase().includes(query)
+      );
+      renderFilteredClaims(filteredClaims);
+    });
+
+    function renderFilteredClaims(filteredClaims) {
+      const tbody = document.getElementById('claimsTableBody');
+      tbody.innerHTML = '';
+      if (filteredClaims.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-gray-500">No claims found.</td></tr>`;
+        return;
+      }
+      filteredClaims.forEach((claim) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50 cursor-pointer';
+        let statusColor = 'text-gray-700';
+        if (claim.status === 'Approved') statusColor = 'text-green-600 font-semibold';
+        else if (claim.status === 'Rejected') statusColor = 'text-red-600 font-semibold';
+        else if (claim.status === 'Under Review') statusColor = 'text-yellow-600 font-semibold';
+
+        tr.innerHTML = `
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${claim.id}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">${claim.policyId}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-900">$${claim.amount}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm ${statusColor}">${claim.status}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-700">${formatDate(claim.submittedOn)}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-center text-sm space-x-2">
+            <button data-claim-id="${claim.id}" class="text-yellow-600 hover:text-yellow-800 focus:outline-none focus:underline viewClaimBtn">
+              View
+            </button>
+            ${
+              userRole === 'Policyholder' && claim.status === 'Rejected'
+                ? `<button data-claim-id="${claim.id}" class="text-red-600 hover:text-red-800 focus:outline-none focus:underline appealClaimBtn">Appeal</button>`
+                : ''
+            }
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Initial state
+    clearUserData();
+  </script>
+ </body>
+</html>
